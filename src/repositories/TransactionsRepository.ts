@@ -23,7 +23,20 @@ class TransactionsRepository {
   }
 
   public getBalance(): Balance {
-    // TODO
+      var income=0, outcome=0, total=0;
+      this.transactions.findIndex(transaction => {
+      if (transaction.type === "income") {
+        income = this.transactions.reduce(function (acolumador, valorAtual) {
+          return acolumador += valorAtual.value;
+        },0);
+      }else{
+        outcome = this.transactions.reduce(function (acolumador, valorAtual) {
+          return acolumador += valorAtual.value;
+        },0);
+      } 
+      })
+    total = income - outcome;
+    return {income, outcome, total};
   }
 
   public create({title, value, type}: TransactionDTO): Transaction {
