@@ -15,12 +15,15 @@ class CreateTransactionService {
   }
 
   public execute({title, value, type}: Request): Transaction {
+    const {total} = this.transactionsRepository.getBalance();
+    if((type === 'outcome') && (total - value < 0)){
+      throw new Error("Transação não pode ser superior ao saldo");
+    }
     const transaction = this.transactionsRepository.create({
       title,
       value,
       type,
     });
-
     return transaction;
   }
 }
